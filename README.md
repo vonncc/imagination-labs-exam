@@ -48,24 +48,37 @@
 src/
 ├── main.ts                  # Application entry point
 ├── app.module.ts            # Root module
-├── controllers/             # API endpoints
-├── services/                # Business logic
-├── dto/                     # Data transfer objects
-├── entities/                # Database models
+├── users/                   # Users resource
+│   ├── dto/                 # Data transfer objects
+│   ├── entities/            # Entity definitions
+│   ├── users.controller.ts  # Controller
+│   ├── users.service.ts     # Service
+│   └── users.module.ts      # Module
+├── interfaces/              # Interfaces and types
+├── repositories/            # Repository implementations
 ├── utils/                   # Utility functions and helpers
 ├── middleware/              # Custom middleware
 └── config/                  # Configuration files
+```
+
+## Adding New Resources
+
+To create a new resource, use the NestJS CLI:
+
+```bash
+nest g resource resource-name
 ```
 
 ## Development Patterns
 
 ### Adding New Features
 
-1. **Create DTOs** in the `dto/` directory for request/response data validation
-2. **Define Entities** in the `entities/` directory if needed
-3. **Implement Service** in the `services/` directory with business logic
-4. **Create Controller** in the `controllers/` directory with endpoints
-5. **Register** in the appropriate module
+1. **Define Interfaces** in the `interfaces/` directory
+2. **Create DTOs** in the appropriate module's `dto/` directory
+3. **Implement Repository** in the `repositories/` directory for data access
+4. **Implement Service** in the module's service file with business logic
+5. **Create Controller** in the module's controller file with endpoints
+6. **Register** components in the appropriate module file
 
 ### Utility Functions
 
