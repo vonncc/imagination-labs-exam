@@ -1,41 +1,25 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { UserRepository } from 'src/repositories/user.repository';
+import type { IUserRepository } from 'src/interfaces/user.repository.interface';
 
 @Injectable()
 export class UsersService {
-  constructor(private userRepository: UserRepository) {}
-
-  // User field selection
-  private readonly userSelect = {
-    id: true,
-    email: true,
-    name: true,
-    role: true,
-    createdAt: true,
-    updatedAt: true,
-  };
+  constructor(
+    @Inject('IUserRepository') private userRepository: IUserRepository,
+  ) {}
 
   private async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 10);
   }
 
   async create(createUserDto: CreateUserDto) {
-    const userExists = await this.userRepository.findByEmail(
-      createUserDto.email,
-    );
-
-    if (userExists) {
-      throw new ConflictException('Email already exists');
-    }
-
     const data = {
       ...createUserDto,
       password: await this.hashPassword(createUserDto.password),
@@ -48,19 +32,15 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(id: number) {
-    const user = await this.userRepository.findOne(String(id));
+  async findOne(id: string) {
+    return this.userRepository.findOne(String(id));
+  }
 
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-
-    return user;
+  async findByEmail(id: string) {
+    return this.userRepository.findByEmail(String(id));
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    await this.findOne(id);
-
     const data = { ...updateUserDto };
 
     if (data.password) {
@@ -70,7 +50,7 @@ export class UsersService {
     return this.userRepository.update(String(id), data);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
 
     return this.userRepository.remove(String(id));
