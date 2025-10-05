@@ -4,26 +4,9 @@ export function mergeTwoSortedArrays<T>(
   array2: T[],
   isAscending: boolean = true,
 ): T[] {
-
   // Validation goes here
   if (array1.length === 0 && array2.length === 0) {
     return [];
-  }
-
-  // Explicit conditions for empty arrays
-  if (array1.length === 0) return array2;
-  if (array2.length === 0) return array1;
-
-  function findIndexOfStartPoint(array: T[]): number {
-    if (array.length <= 1) return 0;
-
-    const isArrayAscending = array[0] < array[array.length - 1];
-
-    if (isArrayAscending) {
-      return isAscending ? 0 : array.length - 1;
-    } else {
-      return isAscending ? array.length - 1 : 0;
-    }
   }
 
   const arrayOneType = typeof array1[0];
@@ -42,6 +25,22 @@ export function mergeTwoSortedArrays<T>(
 
   if (!isArrayOneOfSameType || !isArrayTwoOfSameType) {
     return [];
+  }
+
+  // Explicit conditions for empty arrays
+  if (array1.length === 0) return array2;
+  if (array2.length === 0) return array1;
+
+  function findIndexOfStartPoint(array: T[]): number {
+    if (array.length <= 1) return 0;
+
+    const isArrayAscending = array[0] < array[array.length - 1];
+
+    if (isArrayAscending) {
+      return isAscending ? 0 : array.length - 1;
+    } else {
+      return isAscending ? array.length - 1 : 0;
+    }
   }
 
   const mergedArray: T[] = [];
