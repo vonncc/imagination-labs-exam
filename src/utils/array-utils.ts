@@ -4,11 +4,15 @@ export function mergeTwoSortedArrays<T>(
   array2: T[],
   isAscending: boolean = true,
 ): T[] {
-  // Validation goes here
+  // Explicit conditions for empty arrays
   if (array1.length === 0 && array2.length === 0) {
     return [];
   }
 
+  if (array1.length === 0) return array2;
+  if (array2.length === 0) return array1;
+
+  // Validations for data type
   const arrayOneType = typeof array1[0];
   const arrayTwoType = typeof array2[0];
 
@@ -27,10 +31,9 @@ export function mergeTwoSortedArrays<T>(
     return [];
   }
 
-  // Explicit conditions for empty arrays
-  if (array1.length === 0) return array2;
-  if (array2.length === 0) return array1;
 
+
+  // Helper functions
   function findIndexOfStartPoint(array: T[]): number {
     if (array.length <= 1) return 0;
 
@@ -43,6 +46,7 @@ export function mergeTwoSortedArrays<T>(
     }
   }
 
+  // Main logic
   const mergedArray: T[] = [];
 
   let pointerArrayOne = findIndexOfStartPoint(array1);

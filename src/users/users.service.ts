@@ -8,6 +8,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import type { IUserRepository } from 'src/interfaces/user.repository.interface';
+import { start } from 'repl';
+import { GetIndexOfFirstDuplicate, mergeTwoSortedArrays } from 'src/utils/array-utils';
 
 @Injectable()
 export class UsersService {
@@ -33,6 +35,8 @@ export class UsersService {
   }
 
   async findOne(id: string) {
+    console.log(mergeTwoSortedArrays([1, 2, 3], [], false));
+    console.log(GetIndexOfFirstDuplicate([1,2,3,4,5,1,2,3,4,5]));
     return this.userRepository.findOne(String(id));
   }
 
