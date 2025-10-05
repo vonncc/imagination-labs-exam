@@ -35,8 +35,6 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    console.log(mergeTwoSortedArrays([1, 2, 3], [], false));
-    console.log(GetIndexOfFirstDuplicate([1,2,3,4,5,1,2,3,4,5]));
     return this.userRepository.findOne(String(id));
   }
 
