@@ -18,7 +18,7 @@ export class UsersService {
   private async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 10);
   }
-
+  
   async create(createUserDto: CreateUserDto) {
     const data = {
       ...createUserDto,
